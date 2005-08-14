@@ -18,6 +18,7 @@ BuildRequires:	jakarta-ant >= 1.3
 BuildRequires:	jdk >= 1.3
 BuildRequires:	unzip
 Requires:	jre >= 1.1
+BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
