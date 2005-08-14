@@ -6,10 +6,11 @@ Summary:	BeanShell - Lightweight Scripting for Java
 Summary(pl):	BeanShell - lekkie skrypty dla Javy
 Name:		beanshell
 Version:	2.0
-Release:	0.b2.1
+%define	_beta	b2
+Release:	0.%{_beta}.2
 License:	Sun Public License or LGPL
 Group:		Development/Languages/Java
-Source0:	http://www.beanshell.org/bsh-%{version}b2-src.jar
+Source0:	http://www.beanshell.org/bsh-%{version}%{_beta}-src.jar
 # Source0-md5:	f9c938446e5d97b74fd37f3bdbebf84a
 Patch0:		%{name}-jdk1.5.patch
 URL:		http://www.beanshell.org/
