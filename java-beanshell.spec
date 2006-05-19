@@ -15,7 +15,7 @@ Source0:	http://www.beanshell.org/bsh-%{version}%{_beta}-src.jar
 Patch0:		%{name}-jdk1.5.patch
 URL:		http://www.beanshell.org/
 %{?with_bsf:BuildRequires:	bsf}
-BuildRequires:	jakarta-ant >= 1.3
+BuildRequires:	ant >= 1.3
 BuildRequires:	jdk >= 1.3
 BuildRequires:	unzip
 Requires:	jre >= 1.1
