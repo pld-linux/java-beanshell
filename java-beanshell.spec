@@ -6,20 +6,23 @@ Summary:	BeanShell - Lightweight Scripting for Java
 Summary(pl):	BeanShell - lekkie skrypty dla Javy
 Name:		beanshell
 Version:	2.0
-%define	_beta	b2
-Release:	0.%{_beta}.2
+%define	_beta	b4
+Release:	0.%{_beta}.1
 License:	Sun Public License or LGPL
 Group:		Development/Languages/Java
 Source0:	http://www.beanshell.org/bsh-%{version}%{_beta}-src.jar
-# Source0-md5:	f9c938446e5d97b74fd37f3bdbebf84a
-Patch0:		%{name}-jdk1.5.patch
+# Source0-md5:	49c9cc9872f26d562bffb1e5ec8aa377
 URL:		http://www.beanshell.org/
 %{?with_bsf:BuildRequires:	bsf}
 BuildRequires:	ant >= 1.3
 BuildRequires:	jdk >= 1.3
+BuildRequires:	jpackage-utils
+BuildRequires:	rpmbuild(macros) >= 1.300
 BuildRequires:	unzip
+BuildRequires:	servlet
 Requires:	jre >= 1.1
 BuildArch:	noarch
+ExclusiveArch:	i586 i686 pentium3 pentium4 athlon %{x8664} noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -36,27 +39,47 @@ dynamicznie wykonuje standardow± sk³adniê Javy i rozszerza j± o
 popularne wygodne elementy skryptowe, takie jak lu¼ne typy, polecenia
 i dope³nienia metod podobnie jak Perl czy JavaScript.
 
+%package javadoc
+Summary:	BeanShell API documentation
+Summary(pl):	Dokumentacja API BeanShell
+Group:		Documentation
+
+%description javadoc
+BeanShell API documentation.
+
+%description javadoc -l pl
+Dokumentacja API BeanShell.
+
 %prep
-%setup -q -c
-%patch0 -p0
+%setup -q -n BeanShell-%{version}%{_beta} 
 
 %build
-cd BeanShell
-ant jarall \
+export CLASSPATH="`build-classpath %{?with_bsf:bsf} servlet`"
+export JAVA_HOME="%{java_home}"
+
+ant jarall javadoc \
 	%{!?with_bsf:-Dexclude-bsf='bsh/util/BeanShellBSFEngine.java,TestBshBSF.java'}
+
+cp -R docs/manual/html manual
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_javadir}
+install -d $RPM_BUILD_ROOT{%{_javadir},%{_javadocdir}/%{name}-%{version}}
 
-cd BeanShell/dist
-install bsh-*.jar $RPM_BUILD_ROOT%{_javadir}
-ln -sf bsh-*.jar $RPM_BUILD_ROOT%{_javadir}/bsh.jar
+install dist/bsh-%{version}%{_beta}.jar $RPM_BUILD_ROOT%{_javadir}
+ln -sf bsh-%{version}%{_beta}.jar $RPM_BUILD_ROOT%{_javadir}/bsh.jar
+
+cp -R javadoc/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc BeanShell/{asm/README-asm.txt,bsf/README,docs/faq/faq.html,docs/images,docs/manual,src/{*.html,*.txt}}
+%doc asm/README-asm.txt bsf/README src/{*.html,*.txt}
+%doc docs/{faq/faq.html,images,manual}
 %{_javadir}/*.jar
+
+%files javadoc
+%defattr(644,root,root,755)
+%doc %{_javadocdir}/%{name}-%{version}
