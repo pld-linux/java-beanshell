@@ -2,24 +2,25 @@
 # Conditional build:
 %bcond_without	bsf	# without BSF support
 #
+%define		_beta	b4
+%define		_rel	2
 Summary:	BeanShell - Lightweight Scripting for Java
 Summary(pl):	BeanShell - lekkie skrypty dla Javy
 Name:		beanshell
 Version:	2.0
-%define	_beta	b4
-Release:	0.%{_beta}.1
+Release:	0.%{_beta}.%{_rel}
 License:	Sun Public License or LGPL
 Group:		Development/Languages/Java
 Source0:	http://www.beanshell.org/bsh-%{version}%{_beta}-src.jar
 # Source0-md5:	49c9cc9872f26d562bffb1e5ec8aa377
 URL:		http://www.beanshell.org/
-%{?with_bsf:BuildRequires:	bsf}
 BuildRequires:	ant >= 1.3
+%{?with_bsf:BuildRequires:	bsf}
 BuildRequires:	jdk >= 1.3
 BuildRequires:	jpackage-utils
 BuildRequires:	rpmbuild(macros) >= 1.300
-BuildRequires:	unzip
 BuildRequires:	servlet
+BuildRequires:	unzip
 Requires:	jre >= 1.1
 BuildArch:	noarch
 ExclusiveArch:	i586 i686 pentium3 pentium4 athlon %{x8664} noarch
@@ -43,6 +44,7 @@ i dope³nienia metod podobnie jak Perl czy JavaScript.
 Summary:	BeanShell API documentation
 Summary(pl):	Dokumentacja API BeanShell
 Group:		Documentation
+Requires:	jpackage-utils
 
 %description javadoc
 BeanShell API documentation.
@@ -51,13 +53,13 @@ BeanShell API documentation.
 Dokumentacja API BeanShell.
 
 %prep
-%setup -q -n BeanShell-%{version}%{_beta} 
+%setup -q -n BeanShell-%{version}%{_beta}
 
 %build
 export CLASSPATH="`build-classpath %{?with_bsf:bsf} servlet`"
 export JAVA_HOME="%{java_home}"
 
-ant jarall javadoc \
+%ant jarall javadoc \
 	%{!?with_bsf:-Dexclude-bsf='bsh/util/BeanShellBSFEngine.java,TestBshBSF.java'}
 
 cp -R docs/manual/html manual
