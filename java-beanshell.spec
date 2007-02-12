@@ -5,7 +5,7 @@
 %define		_beta	b4
 %define		_rel	2
 Summary:	BeanShell - Lightweight Scripting for Java
-Summary(pl.UTF-8):   BeanShell - lekkie skrypty dla Javy
+Summary(pl.UTF-8):	BeanShell - lekkie skrypty dla Javy
 Name:		beanshell
 Version:	2.0
 Release:	0.%{_beta}.%{_rel}
@@ -42,7 +42,7 @@ i dopełnienia metod podobnie jak Perl czy JavaScript.
 
 %package javadoc
 Summary:	BeanShell API documentation
-Summary(pl.UTF-8):   Dokumentacja API BeanShell
+Summary(pl.UTF-8):	Dokumentacja API BeanShell
 Group:		Documentation
 Requires:	jpackage-utils
 
