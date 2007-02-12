@@ -5,7 +5,7 @@
 %define		_beta	b4
 %define		_rel	2
 Summary:	BeanShell - Lightweight Scripting for Java
-Summary(pl):	BeanShell - lekkie skrypty dla Javy
+Summary(pl.UTF-8):   BeanShell - lekkie skrypty dla Javy
 Name:		beanshell
 Version:	2.0
 Release:	0.%{_beta}.%{_rel}
@@ -33,23 +33,23 @@ dynamically executes standard Java syntax and extends it with common
 scripting conveniences such as loose types, commands, and method
 closures like those in Perl and JavaScript.
 
-%description -l pl
-BeanShell to ma³y, darmowy, osadzalny interpreter kodu ¼ród³owego Javy
-z cechami obiektowych jêzyków skryptowych, napisany w Javie. BeanShell
-dynamicznie wykonuje standardow± sk³adniê Javy i rozszerza j± o
-popularne wygodne elementy skryptowe, takie jak lu¼ne typy, polecenia
-i dope³nienia metod podobnie jak Perl czy JavaScript.
+%description -l pl.UTF-8
+BeanShell to maÅ‚y, darmowy, osadzalny interpreter kodu ÅºrÃ³dÅ‚owego Javy
+z cechami obiektowych jÄ™zykÃ³w skryptowych, napisany w Javie. BeanShell
+dynamicznie wykonuje standardowÄ… skÅ‚adniÄ™ Javy i rozszerza jÄ… o
+popularne wygodne elementy skryptowe, takie jak luÅºne typy, polecenia
+i dopeÅ‚nienia metod podobnie jak Perl czy JavaScript.
 
 %package javadoc
 Summary:	BeanShell API documentation
-Summary(pl):	Dokumentacja API BeanShell
+Summary(pl.UTF-8):   Dokumentacja API BeanShell
 Group:		Documentation
 Requires:	jpackage-utils
 
 %description javadoc
 BeanShell API documentation.
 
-%description javadoc -l pl
+%description javadoc -l pl.UTF-8
 Dokumentacja API BeanShell.
 
 %prep
