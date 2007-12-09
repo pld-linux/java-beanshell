@@ -4,6 +4,7 @@
 #
 %define		_beta	b4
 %define		_rel	2
+%include	/usr/lib/rpm/macros.java
 Summary:	BeanShell - Lightweight Scripting for Java
 Summary(pl.UTF-8):	BeanShell - lekkie skrypty dla Javy
 Name:		beanshell
@@ -18,12 +19,13 @@ BuildRequires:	ant >= 1.3
 %{?with_bsf:BuildRequires:	bsf}
 BuildRequires:	jdk >= 1.3
 BuildRequires:	jpackage-utils
+BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
 BuildRequires:	servlet
 BuildRequires:	unzip
+Requires:	jpackage-utils
 Requires:	jre >= 1.1
 BuildArch:	noarch
-ExclusiveArch:	i586 i686 pentium3 pentium4 athlon %{x8664} noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -56,8 +58,8 @@ Dokumentacja API BeanShell.
 %setup -q -n BeanShell-%{version}%{_beta}
 
 %build
-export CLASSPATH="`build-classpath %{?with_bsf:bsf} servlet`"
-export JAVA_HOME="%{java_home}"
+required_jars="%{?with_bsf:bsf} servlet"
+export CLASSPATH=$(build-classpath $required_jars)
 
 %ant jarall javadoc \
 	%{!?with_bsf:-Dexclude-bsf='bsh/util/BeanShellBSFEngine.java,TestBshBSF.java'}
@@ -68,13 +70,18 @@ cp -R docs/manual/html manual
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_javadir},%{_javadocdir}/%{name}-%{version}}
 
+# jars
 install dist/bsh-%{version}%{_beta}.jar $RPM_BUILD_ROOT%{_javadir}
 ln -sf bsh-%{version}%{_beta}.jar $RPM_BUILD_ROOT%{_javadir}/bsh.jar
 
-cp -R javadoc/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
+cp -a javadoc/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
+ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name} # ghost symlink
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post javadoc
+ln -nfs %{name}-%{version} %{_javadocdir}/%{name}
 
 %files
 %defattr(644,root,root,755)
@@ -84,4 +91,5 @@ rm -rf $RPM_BUILD_ROOT
 
 %files javadoc
 %defattr(644,root,root,755)
-%doc %{_javadocdir}/%{name}-%{version}
+%{_javadocdir}/%{name}-%{version}
+%ghost %{_javadocdir}/%{name}
