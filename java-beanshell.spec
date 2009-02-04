@@ -3,7 +3,7 @@
 %bcond_without	bsf	# without BSF support
 #
 %define		_beta	b4
-%define		_rel	3
+%define		_rel	4
 %include	/usr/lib/rpm/macros.java
 Summary:	BeanShell - Lightweight Scripting for Java
 Summary(pl.UTF-8):	BeanShell - lekkie skrypty dla Javy
@@ -17,14 +17,13 @@ Source0:	http://www.beanshell.org/bsh-%{version}%{_beta}-src.jar
 URL:		http://www.beanshell.org/
 BuildRequires:	ant >= 1.3
 %{?with_bsf:BuildRequires:	bsf}
-BuildRequires:	jdk >= 1.3
+BuildRequires:	java-gcj-compat-devel
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
 BuildRequires:	servlet
 BuildRequires:	unzip
 Requires:	jpackage-utils
-Requires:	jre >= 1.1
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -62,6 +61,7 @@ required_jars="%{?with_bsf:bsf} servlet"
 export CLASSPATH=$(build-classpath $required_jars)
 
 %ant jarall javadoc \
+	-Dbuild.compiler=gcj \
 	%{!?with_bsf:-Dexclude-bsf='bsh/util/BeanShellBSFEngine.java,TestBshBSF.java'}
 
 cp -R docs/manual/html manual
