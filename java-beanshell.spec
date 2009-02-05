@@ -22,7 +22,7 @@ BuildRequires:	java-gcj-compat-devel
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
-BuildRequires:	servlet
+BuildRequires:	java-servletapi5
 BuildRequires:	unzip
 Requires:	jpackage-utils
 BuildArch:	noarch
