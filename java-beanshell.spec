@@ -4,6 +4,7 @@
 #
 %define		_beta	b4
 %define		_rel	4
+%define		srcname	beanshell
 %include	/usr/lib/rpm/macros.java
 Summary:	BeanShell - Lightweight Scripting for Java
 Summary(pl.UTF-8):	BeanShell - lekkie skrypty dla Javy
@@ -14,6 +15,7 @@ License:	Sun Public License or LGPL
 Group:		Development/Languages/Java
 Source0:	http://www.beanshell.org/bsh-%{version}%{_beta}-src.jar
 # Source0-md5:	49c9cc9872f26d562bffb1e5ec8aa377
+Source1:	%{name}.sh
 URL:		http://www.beanshell.org/
 BuildRequires:	ant >= 1.3
 BuildRequires:	antlr
@@ -53,6 +55,19 @@ BeanShell API documentation.
 %description javadoc -l pl.UTF-8
 Dokumentacja API BeanShell.
 
+%package -n beanshell
+Summary:	BeanShell shell startup script
+Summary(pl.UTF-8):	Skrypt uruchamiający BeanShell
+Group:		Applications
+Requires:	%{name} = %{version}-%{release}
+Requires:	jpackage-utils
+
+%description -n beanshell
+Shell script that runs beanshell as standalone application.
+
+%description -n beanshell -l pl.UTF-8
+Skrypt powłoki uruchamiający beanshell jako niezależną aplikację.
+
 %prep
 %setup -q -n BeanShell-%{version}%{_beta}
 
@@ -70,7 +85,7 @@ cp -R docs/manual/html manual
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_javadir},%{_javadocdir}/%{name}-%{version}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_javadir},%{_javadocdir}/%{name}-%{version}}
 
 # jars
 install dist/bsh-%{version}%{_beta}.jar $RPM_BUILD_ROOT%{_javadir}
@@ -78,6 +93,8 @@ ln -sf bsh-%{version}%{_beta}.jar $RPM_BUILD_ROOT%{_javadir}/bsh.jar
 
 cp -a javadoc/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name} # ghost symlink
+
+install %SOURCE1 $RPM_BUIL_ROOT%{_bindir}/beanshell
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -95,3 +112,7 @@ ln -nfs %{name}-%{version} %{_javadocdir}/%{name}
 %defattr(644,root,root,755)
 %{_javadocdir}/%{name}-%{version}
 %ghost %{_javadocdir}/%{name}
+
+%files -n beanshell
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/beanshell
