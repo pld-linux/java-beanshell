@@ -16,6 +16,7 @@ Source0:	http://www.beanshell.org/bsh-%{version}%{_beta}-src.jar
 # Source0-md5:	49c9cc9872f26d562bffb1e5ec8aa377
 URL:		http://www.beanshell.org/
 BuildRequires:	ant >= 1.3
+BuildRequires:	antlr
 %{?with_bsf:BuildRequires:	bsf}
 BuildRequires:	java-gcj-compat-devel
 BuildRequires:	jpackage-utils
@@ -59,6 +60,8 @@ Dokumentacja API BeanShell.
 %build
 required_jars="%{?with_bsf:bsf} servlet"
 export CLASSPATH=$(build-classpath $required_jars)
+# javadoc calls shell via this variable
+export SHELL=/bin/sh
 
 %ant jarall javadoc \
 	-Dbuild.compiler=gcj \
