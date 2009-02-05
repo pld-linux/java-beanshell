@@ -8,7 +8,7 @@
 %include	/usr/lib/rpm/macros.java
 Summary:	BeanShell - Lightweight Scripting for Java
 Summary(pl.UTF-8):	BeanShell - lekkie skrypty dla Javy
-Name:		beanshell
+Name:		java-beanshell
 Version:	2.0
 Release:	0.%{_beta}.%{_rel}
 License:	Sun Public License or LGPL
@@ -94,7 +94,7 @@ ln -sf bsh-%{version}%{_beta}.jar $RPM_BUILD_ROOT%{_javadir}/bsh.jar
 cp -a javadoc/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name} # ghost symlink
 
-install %SOURCE1 $RPM_BUIL_ROOT%{_bindir}/beanshell
+install %SOURCE1 $RPM_BUILD_ROOT%{_bindir}/beanshell
 
 %clean
 rm -rf $RPM_BUILD_ROOT
