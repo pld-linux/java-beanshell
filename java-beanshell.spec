@@ -22,7 +22,6 @@ BuildRequires:	java-gcj-compat-devel
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
-BuildRequires:	java-servletapi5
 BuildRequires:	unzip
 Requires:	jpackage-utils
 BuildArch:	noarch
@@ -58,7 +57,7 @@ Dokumentacja API BeanShell.
 %setup -q -n BeanShell-%{version}%{_beta}
 
 %build
-required_jars="%{?with_bsf:bsf} servlet"
+required_jars="%{?with_bsf:bsf}"
 export CLASSPATH=$(build-classpath $required_jars)
 # javadoc calls shell via this variable
 export SHELL=/bin/sh
