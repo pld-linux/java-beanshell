@@ -1,18 +1,12 @@
 #!/bin/sh
 
-if [ "$JAVA_HOME" ]; then
-  JAVA=$JAVA_HOME/bin/java
-else
-  if [ -x /usr/bin/gij ]; then
-    JAVA=/usr/bin/gij
-  else
-    if [ -x /usr/bin/java ]; then
-      JAVA=/usr/bin/java
-    else
-      echo "Java not found." >&2
-      exit 1
-    fi
-  fi
+# set JAVA_HOME from jpackage-utils if available
+if [ ! -f /usr/share/java-utils/java-functions ]; then
+	echo >&2 "Java not found."
+	exit 1
 fi
 
-$JAVA -jar $(find-jar bsh)
+. /usr/share/java-utils/java-functions
+set_javacmd
+
+exec $JAVACMD -jar $(find-jar bsh)
