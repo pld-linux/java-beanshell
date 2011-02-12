@@ -2,24 +2,23 @@
 # Conditional build:
 %bcond_without	bsf	# without BSF support
 #
-%define		_beta	b4
 %define		srcname	beanshell
 %include	/usr/lib/rpm/macros.java
 Summary:	BeanShell - Lightweight Scripting for Java
 Summary(pl.UTF-8):	BeanShell - lekkie skrypty dla Javy
 Name:		java-beanshell
 Version:	2.0
-Release:	0.%{_beta}.4
-License:	Sun Public License or LGPL
+%define		subver	b4
+Release:	0.%{subver}.4
+License:	Sun Public License v1.0 or LGPL
 Group:		Development/Languages/Java
-Source0:	http://www.beanshell.org/bsh-%{version}%{_beta}-src.jar
+Source0:	http://www.beanshell.org/bsh-%{version}%{subver}-src.jar
 # Source0-md5:	49c9cc9872f26d562bffb1e5ec8aa377
 Source1:	%{name}.sh
 URL:		http://www.beanshell.org/
 BuildRequires:	ant >= 1.3
 BuildRequires:	antlr
-%{?with_bsf:BuildRequires:	bsf}
-BuildRequires:	java-gcj-compat-devel
+%{?with_bsf:BuildRequires:	java-bsf}
 BuildRequires:	jpackage-utils
 BuildRequires:	rpm-javaprov
 BuildRequires:	rpmbuild(macros) >= 1.300
@@ -68,7 +67,7 @@ Shell script that runs beanshell as standalone application.
 Skrypt powłoki uruchamiający beanshell jako niezależną aplikację.
 
 %prep
-%setup -q -n BeanShell-%{version}%{_beta}
+%setup -q -n BeanShell-%{version}%{subver}
 
 %build
 required_jars="%{?with_bsf:bsf}"
@@ -77,7 +76,6 @@ export CLASSPATH=$(build-classpath $required_jars)
 export SHELL=/bin/sh
 
 %ant jarall javadoc \
-	-Dbuild.compiler=gcj \
 	%{!?with_bsf:-Dexclude-bsf='bsh/util/BeanShellBSFEngine.java,TestBshBSF.java'}
 
 cp -R docs/manual/html manual
@@ -87,8 +85,8 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_javadir},%{_javadocdir}/%{name}-%{version}}
 
 # jars
-install dist/bsh-%{version}%{_beta}.jar $RPM_BUILD_ROOT%{_javadir}
-ln -sf bsh-%{version}%{_beta}.jar $RPM_BUILD_ROOT%{_javadir}/bsh.jar
+install dist/bsh-%{version}%{subver}.jar $RPM_BUILD_ROOT%{_javadir}
+ln -sf bsh-%{version}%{subver}.jar $RPM_BUILD_ROOT%{_javadir}/bsh.jar
 
 cp -a javadoc/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}-%{version}
 ln -s %{name}-%{version} $RPM_BUILD_ROOT%{_javadocdir}/%{name} # ghost symlink
@@ -103,9 +101,9 @@ ln -nfs %{name}-%{version} %{_javadocdir}/%{name}
 
 %files
 %defattr(644,root,root,755)
-%doc asm/README-asm.txt bsf/README src/{*.html,*.txt}
-%doc docs/{faq/faq.html,images,manual}
-%{_javadir}/*.jar
+%doc asm/README-asm.txt bsf/README src/{*.html,*.txt} docs/{faq/faq.html,images,manual}
+%{_javadir}/bsh-%{version}%{subver}.jar
+%{_javadir}/bsh.jar
 
 %files javadoc
 %defattr(644,root,root,755)
