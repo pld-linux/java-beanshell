@@ -3,7 +3,6 @@
 %bcond_without	bsf	# without BSF support
 #
 %define		srcname	beanshell
-%include	/usr/lib/rpm/macros.java
 Summary:	BeanShell - Lightweight Scripting for Java
 Summary(pl.UTF-8):	BeanShell - lekkie skrypty dla Javy
 Name:		java-beanshell
